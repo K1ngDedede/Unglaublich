@@ -1,5 +1,6 @@
 #Colores
 NEGRO = 0, 0, 0
+LIGHT_GRAY = 100, 100, 100
 
 TITULO = "Unglaublich, increíble"
 WIDTH, HEIGHT = 1088, 832

@@ -31,9 +31,9 @@ class Jogo:
 
     def dibujar_grilla(self):
         for x in range(0, WIDTH, TAM_CUADRO):
-            pg.draw.line(self.screen, (100, 100, 100), (x, 0), (x, HEIGHT))
+            pg.draw.line(self.screen, LIGHT_GRAY, (x, 0), (x, HEIGHT))
         for y in range(0, HEIGHT, TAM_CUADRO):
-            pg.draw.line(self.screen, (100, 100, 100), (0, y), (WIDTH, y))
+            pg.draw.line(self.screen, LIGHT_GRAY, (0, y), (WIDTH, y))
 
     def draw(self):
         self.dibujar_grilla()
