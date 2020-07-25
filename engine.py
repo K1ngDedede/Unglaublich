@@ -50,8 +50,6 @@ class Tile(pg.sprite.Sprite):
         self.x = x
         self.y = y
 
-
-
     def draw(self, screen):
         self.image = pg.image.load(self.image_filename).convert()
         screen.blit(self.image, (self.x, self.y))
