@@ -2,6 +2,7 @@ from os import path
 import pygame as pg
 import sys
 from settings import *
+from sprites import *
 
 class Map:
 
@@ -80,8 +81,13 @@ screen = pg.display.set_mode((WIDTH, HEIGHT))
 pg.display.set_caption(TITULO)
 doge_map = Map("example.txt", screen)
 doge_map.load()
-
+knight = Nameless(0,0,screen)
+pg.key.set_repeat(1, 50)
 while 1:
     for event in pg.event.get():
         if event.type == pg.QUIT: sys.exit()
-    doge_map.draw()
+
+        doge_map.draw()
+        knight.update()
+        screen.blit(knight.image, (knight.x, knight.y))
+        pg.display.flip()
