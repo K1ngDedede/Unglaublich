@@ -6,9 +6,10 @@ class Nameless(pg.sprite.Sprite):
     def __init__(self, x, y, screen):
         self.x = x
         self.y = y
-        self.image = pg.image.load("imgs/tiny_picture_of_doge2.jpg").convert()
-        self.speed = 30
+        self.image = pg.image.load("imgs/buff_doge.png").convert_alpha()
+        self.speed = 64
         self.screen = screen
+        self.rect = self.image.get_rect()
 
     def keys(self):
         keys = pg.key.get_pressed()
@@ -22,9 +23,11 @@ class Nameless(pg.sprite.Sprite):
             self.move(self.speed, 0)
 
     def move(self, x, y):
-        if 0 <=self.x+x <= WIDTH and 0 <=self.y+y <= HEIGHT:
-            self.x += x
-            self.y += y
+        #if 0 <=self.x+x <= WIDTH and 0 <=self.y+y <= HEIGHT:
+        self.x += x
+        self.y += y
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def update(self):
         self.keys()

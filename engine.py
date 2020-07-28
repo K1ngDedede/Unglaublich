@@ -12,7 +12,6 @@ class Map:
         self.filename = "worlds/"+filename
         self.screen = screen
 
-
     def load(self):
         world_file = open(self.filename, "r")
         row = 0
@@ -33,12 +32,15 @@ class Map:
             row+=1
         self.height = len(self.nig)
         self.width = len(self.nig[0])
+        self.height_px = self.height * TILESIZE
+        self.width_px = self.width * TILESIZE
         world_file.close()
+        self.camera = Camera(self.width_px, self.height_px)
 
     def draw(self):
         for row in self.nig:
             for tile in row:
-                tile.draw(self.screen)
+                self.screen.blit(tile.image, self.camera.apply(tile))
 
 
 class Tile(pg.sprite.Sprite):
@@ -50,10 +52,12 @@ class Tile(pg.sprite.Sprite):
         self.poggers = poggers
         self.x = x
         self.y = y
-
-    def draw(self, screen):
         self.image = pg.image.load(self.image_filename).convert()
-        screen.blit(self.image, (self.x, self.y))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
 
 
 class Camera:
@@ -86,8 +90,8 @@ pg.key.set_repeat(1, 50)
 while 1:
     for event in pg.event.get():
         if event.type == pg.QUIT: sys.exit()
-
+        doge_map.camera.update(knight)
         doge_map.draw()
         knight.update()
-        screen.blit(knight.image, (knight.x, knight.y))
+        screen.blit(knight.image, doge_map.camera.apply(knight))
         pg.display.flip()
