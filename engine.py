@@ -9,6 +9,10 @@ class Map:
     def __init__(self, filename, screen):
         #Matrix of tiles
         self.nig = []
+        self.all_sprites = pg.sprite.Group()
+        self.tiles = pg.sprite.Group()
+        self.collidable_tiles = pg.sprite.Group()
+        self.action_tiles = pg.sprite.Group()
         self.filename = "worlds/"+filename
         self.screen = screen
 
@@ -27,7 +31,7 @@ class Map:
                 tile_poggers = int(tile[2])
                 tile_x = col * TILESIZE
                 tile_y = row * TILESIZE
-                self.nig[row].append(Tile(tile_filename, adyacent_filename, tile_poggers, tile_x, tile_y))
+                self.nig[row].append(Tile(tile_filename, adyacent_filename, tile_poggers, tile_x, tile_y, self))
                 col+=1
             row+=1
         self.height = len(self.nig)
@@ -38,14 +42,19 @@ class Map:
         self.camera = Camera(self.width_px, self.height_px)
 
     def draw(self):
-        for row in self.nig:
-            for tile in row:
+        for tile in self.tiles:
                 self.screen.blit(tile.image, self.camera.apply(tile))
 
 
 class Tile(pg.sprite.Sprite):
 
-    def __init__(self, image_filename, adyacent_map_filename, poggers, x, y):
+    def __init__(self, image_filename, adyacent_map_filename, poggers, x, y, map):
+        if not poggers:
+            self.groups = map.tiles, map.all_sprites, map.collidable_tiles
+        else:
+            self.groups = map.tiles, map.all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.map = map
         self.image_filename = "imgs/"+image_filename
         self.adyacent_map_filename = adyacent_map_filename
         #poggers indicates whether a tile is walkable or not
@@ -59,8 +68,8 @@ class Tile(pg.sprite.Sprite):
 
 
 
-
 class Camera:
+
     def __init__(self, width, height):
         self.camera = pg.Rect(0, 0, width, height)
         self.width = width
@@ -85,8 +94,8 @@ screen = pg.display.set_mode((WIDTH, HEIGHT))
 pg.display.set_caption(TITULO)
 doge_map = Map("example.txt", screen)
 doge_map.load()
-knight = Nameless(0,0,screen)
-pg.key.set_repeat(1, 50)
+knight = Nameless(64,64,screen, doge_map)
+pg.key.set_repeat(1, 500)
 while 1:
     for event in pg.event.get():
         if event.type == pg.QUIT: sys.exit()
