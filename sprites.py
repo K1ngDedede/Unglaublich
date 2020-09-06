@@ -9,8 +9,8 @@ class Nameless(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self, self.groups)
         self.x = x
         self.y = y
-        self.image = pg.image.load("imgs/buff_doge.png").convert_alpha()
-        self.speed = 64
+        self.image = pg.image.load("imgs/nameless_pixelart3.png").convert_alpha()
+        self.speed = 20
         self.screen = screen
         self.rect = self.image.get_rect()
         self.map = map
