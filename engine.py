@@ -55,8 +55,15 @@ class Tile(pg.sprite.Sprite):
             self.groups = map.tiles, map.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.map = map
+        self.x_spawn = ""
+        self.y_spawn = ""
         self.image_filename = "imgs/"+image_filename
-        self.adyacent_map_filename = adyacent_map_filename
+        if adyacent_map_filename != "":
+            self.adyacent_map_filename = adyacent_map_filename.split("-")[0]
+            self.x_spawn = int(adyacent_map_filename.split("-")[1])
+            self.y_spawn = int(adyacent_map_filename.split("-")[2])
+        else:
+            self.adyacent_map_filename = ""
         #poggers indicates whether a tile is walkable or not
         self.poggers = poggers
         self.x = x
@@ -65,8 +72,6 @@ class Tile(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
-
 
 class Camera:
 
@@ -88,5 +93,8 @@ class Camera:
         x = max(-(self.width - WIDTH), x)  # right
         y = max(-(self.height - HEIGHT), y)  # bottom
         self.camera = pg.Rect(x, y, self.width, self.height)
+
+def get_opposite_direction(direction: int)->str:
+    return directions[(direction+2)%4]
 
 
