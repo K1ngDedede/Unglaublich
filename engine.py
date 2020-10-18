@@ -94,6 +94,45 @@ class Camera:
         y = max(-(self.height - HEIGHT), y)  # bottom
         self.camera = pg.Rect(x, y, self.width, self.height)
 
+class Party:
+
+    def __init__(self, sprites, screen):
+        self.size = len(sprites)
+        self.sprites = sprites
+        self.leader = self.sprites[0]
+        self.screen = screen
+
+    def update(self):
+        self.leader.update()
+        for i in range(1, self.size):
+            self.sprites[i].current_direction = self.sprites[i-1].current_direction
+            self.sprites[i].update()
+            self.sprites[i].x = self.sprites[i - 1].past_x
+            self.sprites[i].y = self.sprites[i - 1].past_y
+        self.leader.map.camera.update(self.leader)
+        self.maurisio()
+
+    def draw(self):
+        self.leader.map.draw()
+        for sprite in self.sprites:
+            self.screen.blit(sprite.image, sprite.map.camera.apply(sprite))
+
+    #Verifies if there is a map transition and if there is, the map changes accordingly
+    def maurisio(self):
+        currentTile = self.leader.get_current_tile()
+        if currentTile.adyacent_map_filename != "":
+            #load map
+            new_map = Map(currentTile.adyacent_map_filename, self.screen)
+            for sprite in self.sprites:
+                sprite.map = new_map
+                sprite.groups = sprite.map.all_sprites
+            self.leader.map.load()
+            self.leader.x = currentTile.x_spawn * 64
+            self.leader.y = currentTile.y_spawn * 64
+            self.leader.vel = vec(0, 0)
+
+
+
 def get_opposite_direction(direction: int)->str:
     return directions[(direction+2)%4]
 
