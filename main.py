@@ -13,6 +13,8 @@ knight = Nameless(1,1,screen, doge_map, True)
 party = Party([knight, knight2], screen)
 pg.key.set_repeat(1, 500)
 clock = pg.time.Clock()
+pg.mixer.music.load("./music/Prueba_SONYsonido.ogg")
+pg.mixer.music.play(-1)
 while 1:
     for event in pg.event.get():
         if event.type == pg.QUIT: sys.exit()
