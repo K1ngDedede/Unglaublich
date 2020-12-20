@@ -12,12 +12,12 @@ class Nameless(pg.sprite.Sprite):
         self.y = y*64
         self.past_x = self.x
         self.past_y = self.y
-        self.image = pg.image.load("imgs/NEWnameless.png").convert_alpha()
+        self.image = pg.image.load("imgs/HELPERT1.png").convert_alpha()
 
         self.speed = PLAYER_SPEED
         self.screen = screen
         self.rect = self.image.get_rect()
-        #self.image = pg.transform.scale(self.image, (600, 600))
+        #self.image = pg.transform.scale(self.image,(64,64))
         self.map = map
         self.vel = vec(0,0)
         self.current_direction = 2
